@@ -1,5 +1,6 @@
 import React from 'react';
 import ProductCard from '../../components/ProductCard/ProductCard';
+import Footer from '../Extra/footer/Footer';
 import Banner from './Banner';
 import Reviews from './Reviews';
 
@@ -21,8 +22,10 @@ const Home = () => {
                         <h1 className='text-5xl text-center mb-10'>Our Customer says</h1>
                         <Reviews />
                     </div>
+                    <Footer />
                 </div>
             </div>
+
         </div>
     );
 };
