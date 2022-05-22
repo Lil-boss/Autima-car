@@ -22,6 +22,7 @@ function App() {
         </Route>
         <Route path="/blogs" element={<Blogs />} />
         <Route path="/about" element={<About />} />
+
         <Route path="*" element={<ErrorPage />} />
       </Routes>
 

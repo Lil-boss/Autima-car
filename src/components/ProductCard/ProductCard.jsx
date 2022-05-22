@@ -2,15 +2,15 @@ import React from 'react';
 
 const ProductCard = () => {
     return (
-        <div class="card max-w-lg bg-base-100 shadow-xl">
-            <figure class="px-10 pt-10">
-                <img src="https://api.lorem.space/image/shoes?w=400&h=225" alt="Shoes" class="rounded-xl" />
+        <div className="card max-w-lg bg-base-100 shadow-xl">
+            <figure className="px-10 pt-10">
+                <img src="https://api.lorem.space/image/shoes?w=400&h=225" alt="Shoes" className="rounded-xl" />
             </figure>
-            <div class="card-body items-center text-center">
-                <h2 class="card-title">Shoes!</h2>
+            <div className="card-body items-center text-center">
+                <h2 className="card-title">Shoes!</h2>
                 <p>If a dog chews shoes whose shoes does he choose?</p>
-                <div class="card-actions">
-                    <button class="btn btn-primary">Buy Now</button>
+                <div className="card-actions">
+                    <button className="btn btn-primary">Buy Now</button>
                 </div>
             </div>
         </div>
