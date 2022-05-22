@@ -11,7 +11,7 @@ const Navbar = () => {
         <li className='hover:bg-accent hover:text-white rounded-lg '><Link to="/login">Login</Link></li>
     </>
     return (
-        <div class="navbar bg-base-100 sticky top-0">
+        <div class="navbar bg-base-100 sticky top-0 z-10">
             <div className='w-4/5 mx-auto'>
                 <div class="navbar-start">
                     <div class="dropdown">
