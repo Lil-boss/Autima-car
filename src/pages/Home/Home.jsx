@@ -8,8 +8,8 @@ const Home = () => {
         <div>
             <Banner />
             <div>
-                <div className='w-4/5 mx-auto my-20'>
-                    <div className='grid grid-cols-3 gap-3'>
+                <div className='w-4/5 mx-auto'>
+                    <div className='grid grid-cols-3 gap-3  my-20'>
                         <ProductCard />
                         <ProductCard />
                         <ProductCard />
@@ -17,9 +17,12 @@ const Home = () => {
                         <ProductCard />
                         <ProductCard />
                     </div>
+                    <div>
+                        <h1 className='text-5xl text-center mb-10'>Our Customer says</h1>
+                        <Reviews />
+                    </div>
                 </div>
             </div>
-            <Reviews />
         </div>
     );
 };
