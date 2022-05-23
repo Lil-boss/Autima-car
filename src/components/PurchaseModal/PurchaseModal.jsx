@@ -1,65 +1,14 @@
-import React, { Fragment, useEffect, useRef, useState } from 'react';
+import { Dialog, Transition } from '@headlessui/react';
+import React, { Fragment, useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { Link, useParams } from 'react-router-dom';
-import { Dialog, Transition } from '@headlessui/react'
-import axios from 'axios';
-import toast from 'react-hot-toast';
 
-const UpdateModal = () => {
+const PurchaseModal = () => {
     const { id } = useParams()
     const [open, setOpen] = useState(true)
     const cancelButtonRef = useRef(null);
     const { register, handleSubmit } = useForm();
-    const [product, setProduct] = useState({})
-    const { productName, description, price, qty } = product;
-
-    useEffect(() => {
-        const fetchProduct = async () => {
-            try {
-                await axios.get(`https://autima.herokuapp.com/api/v1/product/${id}`)
-                    .then(res => setProduct(res.data.data))
-            } catch (err) {
-                console.log(err);
-            }
-        }
-        fetchProduct()
-    }, [id])
-    const onSubmit = async (data) => {
-        console.log(data);
-        const image = data.image[0];
-        const formData = new FormData();
-        formData.append("image", image);
-        const url = `https://api.imgbb.com/1/upload?key=${process.env.REACT_APP_imageBB_KEY}`;
-        console.log(url);
-        await axios.post(url, formData)
-            .then(res => {
-                const result = res.data;
-                if (result.success === true) {
-                    const img = result.data.url
-                    const price = Number(data.price)
-                    const quantity = Number(data.qty);
-                    const total = price * quantity;
-                    const product = {
-                        productName: data.productName,
-                        description: data.description,
-                        price: data.price,
-                        qty: data.qty,
-                        image: img,
-                        totalPrice: JSON.stringify(total)
-                    }
-                    const fetchData = async () => {
-                        await axios.put(`https://autima.herokuapp.com/api/v1/product/${id}`, product)
-                            .then(res => {
-                                toast.success("Product Updated Successfully", { id: "success" })
-                            });
-                    }
-                    fetchData();
-                }
-            });
-
-
-    }
-
+    const onSubmit = async (data) => console.log(data);
     return (
         <Transition.Root show={open} as={Fragment}>
             <Dialog as="div" className="fixed z-10 inset-0 overflow-y-auto" initialFocus={cancelButtonRef} onClose={setOpen}>
@@ -94,45 +43,49 @@ const UpdateModal = () => {
                                 <div className="sm:flex sm:items-start">
                                     <div className="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
                                         <Dialog.Title as="h3" className="text-lg leading-6 font-medium text-gray-900">
-                                            {product?.productName}
+                                            <p className='text-center text-2xl'>Purchase</p>
                                         </Dialog.Title>
                                         <div className='grid sm:grid-cols-1 justify-items-center md:grid-cols-2 gap-3 '>
                                             <div className='w-4/5 mx-auto'>
-                                                <form onSubmit={handleSubmit(onSubmit)}>
-                                                    <input type="text" {...register("productName", {
+                                                <form onSubmit={handleSubmit(onSubmit)} className="ml-10">
+                                                    <input type="text" {...register("name", {
+                                                        required: {
+                                                            value: true,
+                                                            message: "name is required"
+                                                        }
+                                                    })} placeholder="name" className="input input-bordered input-sm lg:w-80 max-w-xs my-3" />
+                                                    <input type="text" {...register("email", {
+                                                        required: {
+                                                            value: true,
+                                                            message: "email is required"
+                                                        }
+                                                    })} placeholder="email" className="input input-bordered input-sm  max-w-xs lg:w-80 mb-3" />
+                                                    <input type="text" defaultValue={id} {...register("productName", {
                                                         required: {
                                                             value: true,
                                                             message: "productName is required"
                                                         }
-                                                    })} defaultValue={productName} placeholder="product Name" className="input input-bordered input-sm w-full max-w-xs my-3" />
-                                                    <textarea {...register("description", {
-                                                        required: {
-                                                            value: true,
-                                                            message: "description is required"
-                                                        }
-                                                    })} className="textarea textarea-bordered w-80" defaultValue={description} placeholder="Description"></textarea>
+                                                    })} placeholder="product Name" className="input input-bordered input-sm  max-w-xs lg:w-80 mb-3" />
+
                                                     <input type="number" {...register("price", {
                                                         required: {
                                                             value: true,
                                                             message: "Price is required"
                                                         }
-                                                    })} defaultValue={price} placeholder="Price" className="input input-bordered input-sm w-full max-w-xs mb-3" />
+                                                    })} placeholder="Price" className="input input-bordered input-sm  max-w-xs lg:w-80 mb-3" />
                                                     <input type="number" {...register("qty", {
                                                         required: {
                                                             value: true,
                                                             message: "quantity is required"
                                                         }
-                                                    })} defaultValue={qty} placeholder="Quantity" className="input input-bordered input-sm w-full max-w-xs mb-3" />
-                                                    <div>
-                                                        <p>Select Image</p>
-                                                        <input type="file" {...register("image", {
-                                                            required: {
-                                                                value: true,
-                                                                message: "image is required"
-                                                            }
-                                                        })} />
-                                                    </div>
-                                                    <button className="btn btn-secondary text-white mt-3" type="submit">Update Product</button>
+                                                    })} placeholder="Quantity" className="input input-bordered input-sm max-w-xs lg:w-80 mb-3" />
+                                                    <textarea {...register("address", {
+                                                        required: {
+                                                            value: true,
+                                                            message: "address is required"
+                                                        }
+                                                    })} className="textarea textarea-bordered w-80" placeholder="address"></textarea>
+                                                    <button className="btn btn-secondary text-white mt-3" type="submit">Purchase</button>
                                                 </form>
                                             </div>
                                         </div>
@@ -141,7 +94,7 @@ const UpdateModal = () => {
                             </div>
                             {/* button area */}
                             <div className="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
-                                <Link to="/dashboard">
+                                <Link to="/">
                                     <button
                                         type="button"
                                         className="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
@@ -158,6 +111,7 @@ const UpdateModal = () => {
             </Dialog >
         </Transition.Root >
     );
-};
+}
 
-export default UpdateModal;
+
+export default PurchaseModal;

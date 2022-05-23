@@ -11,6 +11,7 @@ import Orders from "./components/Orders/Orders";
 import AllReviews from "./components/AllReviews/AllReviews";
 import UpdateModal from "./components/UpdateProductModal/UpdateModal";
 import { Toaster } from "react-hot-toast";
+import PurchaseModal from "./components/PurchaseModal/PurchaseModal";
 
 function App() {
   return (
@@ -28,6 +29,7 @@ function App() {
         </Route>
         <Route path="/blogs" element={<Blogs />} />
         <Route path="/about" element={<About />} />
+        <Route path="/purchase/:id" element={<PurchaseModal />} />
         <Route path="*" element={<ErrorPage />} />
       </Routes>
 
