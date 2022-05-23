@@ -2,7 +2,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const AllProduct = () => {
 
@@ -27,15 +27,13 @@ const AllProduct = () => {
                         description: data.description,
                         price: data.price,
                         qty: data.qty,
-                        image: JSON.stringify(img),
+                        image: img,
                         totalPrice: JSON.stringify(total)
                     }
                     const fetchData = async () => {
                         await axios.post("https://autima.herokuapp.com/api/v1/products", product)
                             .then(res => {
-                                if (res.data.success === true) {
-                                    toast.success("Product Added Successfully", { id: "success" })
-                                }
+                                toast.success("Product Added Successfully", { id: "success" })
                             });
                     }
                     fetchData();
@@ -61,7 +59,9 @@ const AllProduct = () => {
 
     const handleDelete = async (id) => {
         await axios.delete(`https://autima.herokuapp.com/api/v1/product/${id}`)
-            .then(res => console.log(res.data));
+            .then(res =>
+                toast.success("Product Deleted Successfully", { id: "success" })
+            );
     }
 
     const handleUpdate = (id) => {
@@ -148,7 +148,7 @@ const AllProduct = () => {
                                 <td></td>
                                 <td>
                                     <button onClick={() => handleUpdate(product._id)} className="btn p-2 bg-secondary text-white mr-2 border-none">Edit</button>
-                                    <button onClick={() => handleDelete(product._id)} className="btn p-2 bg-red-600 text-white border-none">Delete</button>
+                                    <button onClick={() => handleDelete(product._id)} className="btn p-2 bg-error text-white border-none">Delete</button>
                                 </td>
                             </tr>)
                         }

@@ -44,15 +44,13 @@ const UpdateModal = () => {
                         description: data.description,
                         price: data.price,
                         qty: data.qty,
-                        image: JSON.stringify(img),
+                        image: img,
                         totalPrice: JSON.stringify(total)
                     }
                     const fetchData = async () => {
                         await axios.put(`https://autima.herokuapp.com/api/v1/product/${id}`, product)
                             .then(res => {
-                                if (res.data.success === true) {
-                                    toast.success("Product Updated Successfully", { id: "success" })
-                                }
+                                toast.success("Product Updated Successfully", { id: "success" })
                             });
                     }
                     fetchData();
