@@ -6,7 +6,7 @@ import Blogs from "./pages/Blogs/Blogs";
 import ErrorPage from "./pages/Extra/ErrorPage/ErrorPage";
 import Home from "./pages/Home/Home";
 import AllProduct from "./components/AllProduct/AllProduct";
-import Allusers from "./components/AllUsers/Allusers";
+import AllUsers from "./components/AllUsers/AllUsers";
 import Orders from "./components/Orders/Orders";
 
 function App() {
@@ -17,7 +17,7 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/dashboard" element={<Dashboard />}>
           <Route index element={<AllProduct />} />
-          <Route path="/dashboard/users" element={<Allusers />} />
+          <Route path="/dashboard/users" element={<AllUsers />} />
           <Route path="/dashboard/orders" element={<Orders />} />
         </Route>
         <Route path="/blogs" element={<Blogs />} />

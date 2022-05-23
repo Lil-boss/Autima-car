@@ -1,4 +1,25 @@
+import axios from "axios";
+import { useEffect, useState } from "react";
+
 const AllProduct = () => {
+    const [products, setProducts] = useState([]);
+
+
+
+    useEffect(() => {
+        const fetchProducts = async () => {
+            try {
+                await axios.get("https://autima.herokuapp.com/api/v1/products")
+                    .then(res => {
+                        setProducts(res.data.data)
+                    })
+
+            } catch (err) {
+                console.log(err);
+            }
+        }
+        fetchProducts()
+    }, [products])
     return (
         <div>
             <div className='flex justify-start items-center'>
@@ -30,7 +51,6 @@ const AllProduct = () => {
                 <table className="table table-zebra w-full">
                     <thead>
                         <tr>
-                            <th></th>
                             <th>Product Name</th>
                             <th>Description</th>
                             <th>Price</th>
@@ -42,24 +62,15 @@ const AllProduct = () => {
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <th>1</th>
-                            <td>Cy Ganderton</td>
-                            <td>Quality Control Specialist</td>
-                            <td>Blue</td>
-                        </tr>
-                        <tr>
-                            <th>2</th>
-                            <td>Hart Hagerty</td>
-                            <td>Desktop Support Technician</td>
-                            <td>Purple</td>
-                        </tr>
-                        <tr>
-                            <th>3</th>
-                            <td>Brice Swyre</td>
-                            <td>Tax Accountant</td>
-                            <td>Red</td>
-                        </tr>
+                        {
+                            products.map(product => <tr key={product._id}>
+                                <td>{product.productName}</td>
+                                <td>{product.description}</td>
+                                <td>{product.price}</td>
+                                <td>{product.qty}</td>
+                            </tr>)
+                        }
+
                     </tbody>
                 </table>
             </div>
