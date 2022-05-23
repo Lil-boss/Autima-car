@@ -9,10 +9,13 @@ import AllProduct from "./components/AllProduct/AllProduct";
 import AllUsers from "./components/AllUsers/AllUsers";
 import Orders from "./components/Orders/Orders";
 import AllReviews from "./components/AllReviews/AllReviews";
+import UpdateModal from "./components/UpdateProductModal/UpdateModal";
+import { Toaster } from "react-hot-toast";
 
 function App() {
   return (
     <div>
+      <Toaster />
       <Navbar />
       <Routes>
         <Route path="/" element={<Home />} />
@@ -21,10 +24,10 @@ function App() {
           <Route path="/dashboard/users" element={<AllUsers />} />
           <Route path="/dashboard/orders" element={<Orders />} />
           <Route path="/dashboard/reviews" element={<AllReviews />} />
+          <Route path="/dashboard/update/:id" element={<UpdateModal />} />
         </Route>
         <Route path="/blogs" element={<Blogs />} />
         <Route path="/about" element={<About />} />
-
         <Route path="*" element={<ErrorPage />} />
       </Routes>
 

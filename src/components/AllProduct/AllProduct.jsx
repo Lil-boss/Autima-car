@@ -1,17 +1,19 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
+import toast from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
 
 const AllProduct = () => {
-    const imageBB_KEY = "0732f1601daecdd2eb43b8f7ea03eb41";
+
+    const navigate = useNavigate()
     const { register, handleSubmit } = useForm();
     const [products, setProducts] = useState([]);
     const onSubmit = async (data) => {
-        console.log(data);
         const image = data.image[0];
         const formData = new FormData();
         formData.append("image", image);
-        const url = `https://api.imgbb.com/1/upload?key=${imageBB_KEY}`;
+        const url = `https://api.imgbb.com/1/upload?key=${process.env.REACT_APP_imageBB_KEY}`;
         await axios.post(url, formData)
             .then(res => {
                 const result = res.data;
@@ -30,13 +32,16 @@ const AllProduct = () => {
                     }
                     const fetchData = async () => {
                         await axios.post("https://autima.herokuapp.com/api/v1/products", product)
-                            .then(res => console.log(res.data));
+                            .then(res => {
+                                if (res.data.success === true) {
+                                    toast.success("Product Added Successfully", { id: "success" })
+                                }
+                            });
                     }
                     fetchData();
                 }
             });
     }
-
 
     useEffect(() => {
         const fetchProducts = async () => {
@@ -52,6 +57,16 @@ const AllProduct = () => {
         }
         fetchProducts()
     }, [products])
+
+
+    const handleDelete = async (id) => {
+        await axios.delete(`https://autima.herokuapp.com/api/v1/product/${id}`)
+            .then(res => console.log(res.data));
+    }
+
+    const handleUpdate = (id) => {
+        navigate(`/dashboard/update/${id}`);
+    }
     return (
         <div>
             <div className='flex justify-start items-center'>
@@ -128,6 +143,13 @@ const AllProduct = () => {
                                 <td>{product.description}</td>
                                 <td>{product.price}</td>
                                 <td>{product.qty}</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td>
+                                    <button onClick={() => handleUpdate(product._id)} className="btn p-2 bg-secondary text-white mr-2 border-none">Edit</button>
+                                    <button onClick={() => handleDelete(product._id)} className="btn p-2 bg-red-600 text-white border-none">Delete</button>
+                                </td>
                             </tr>)
                         }
 
