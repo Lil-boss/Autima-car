@@ -78,13 +78,13 @@ const AllProduct = () => {
                                             message: "description is required"
                                         }
                                     })} className="textarea textarea-bordered w-80" placeholder="Description"></textarea>
-                                    <input type="text" {...register("price", {
+                                    <input type="number" {...register("price", {
                                         required: {
                                             value: true,
                                             message: "Price is required"
                                         }
                                     })} placeholder="Price" className="input input-bordered input-sm w-full max-w-xs" />
-                                    <input type="text" {...register("qty", {
+                                    <input type="number" {...register("qty", {
                                         required: {
                                             value: true,
                                             message: "quantity is required"

@@ -28,7 +28,7 @@ const Dashboard = () => {
                         <li className='bg-slate-900 mt-2 rounded-md'><Link to="/dashboard/users">All Users</Link></li>
                         <li className='bg-slate-900 mt-2 rounded-md'><Link to="/dashboard/orders">Orders</Link></li>
                         <li className='bg-slate-900 mt-2 rounded-md'><Link to="/dashboard/users">My Profile</Link></li>
-                        <li className='bg-slate-900 mt-2 rounded-md'><Link to="/">Reviews</Link></li>
+                        <li className='bg-slate-900 mt-2 rounded-md'><Link to="/dashboard/reviews">Reviews</Link></li>
                         <li className='bg-slate-900 mt-2 rounded-md'><Link to="">Others</Link></li>
                     </ul>
                 </div>
