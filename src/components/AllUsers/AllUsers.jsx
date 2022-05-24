@@ -8,7 +8,6 @@ const AllUsers = () => {
             try {
                 await axios.get("https://autima.herokuapp.com/api/v1/users")
                     .then(res => {
-                        //console.log(res.data)
                         setUsers(res.data.data)
                     })
 

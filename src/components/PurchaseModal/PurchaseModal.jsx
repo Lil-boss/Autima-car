@@ -1,14 +1,56 @@
 import { Dialog, Transition } from '@headlessui/react';
-import React, { Fragment, useRef, useState } from 'react';
+import React, { Fragment, useEffect, useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { Link, useParams } from 'react-router-dom';
+import { useAuthState } from 'react-firebase-hooks/auth';
+import auth from '../../pages/Auth/Firebase/firebase.init';
+import axios from 'axios';
+import toast from 'react-hot-toast';
 
 const PurchaseModal = () => {
     const { id } = useParams()
     const [open, setOpen] = useState(true)
     const cancelButtonRef = useRef(null);
     const { register, handleSubmit } = useForm();
-    const onSubmit = async (data) => console.log(data);
+    const [user] = useAuthState(auth);
+    const [product, setProduct] = useState({})
+    const { productName, price } = product
+
+    useEffect(() => {
+        const fetchProduct = async () => {
+            try {
+                await axios.get(`https://autima.herokuapp.com/api/v1/product/${id}`)
+                    .then(res => {
+                        setProduct(res?.data?.data)
+                    })
+
+            } catch (err) {
+                console.log(err);
+            }
+        }
+        fetchProduct()
+    }, [id])
+    const onSubmit = async (data) => {
+        const { name, email, productName, qty, price, phone, address } = data
+        const order = {
+            name: name,
+            email: email,
+            productName: productName,
+            qty: qty,
+            price: price,
+            phone: phone,
+            address: address,
+            isDeliver: false,
+            isPaid: false,
+        }
+        const fetchData = async () => {
+            await axios.post(`https://autima.herokuapp.com/api/v1/orders`, order)
+                .then(res =>
+                    toast.success('Order Successfully Placed')
+                )
+        }
+        fetchData()
+    }
     return (
         <Transition.Root show={open} as={Fragment}>
             <Dialog as="div" className="fixed z-10 inset-0 overflow-y-auto" initialFocus={cancelButtonRef} onClose={setOpen}>
@@ -24,8 +66,6 @@ const PurchaseModal = () => {
                     >
                         <Dialog.Overlay className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" />
                     </Transition.Child>
-
-                    {/* This element is to trick the browser into centering the modal contents. */}
                     <span className="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">
                         &#8203;
                     </span>
@@ -48,26 +88,26 @@ const PurchaseModal = () => {
                                         <div className='grid sm:grid-cols-1 justify-items-center md:grid-cols-2 gap-3 '>
                                             <div className='w-4/5 mx-auto'>
                                                 <form onSubmit={handleSubmit(onSubmit)} className="ml-10">
-                                                    <input type="text" {...register("name", {
+                                                    <input type="text" defaultValue={user?.displayName} {...register("name", {
                                                         required: {
                                                             value: true,
                                                             message: "name is required"
                                                         }
                                                     })} placeholder="name" className="input input-bordered input-sm lg:w-80 max-w-xs my-3" />
-                                                    <input type="text" {...register("email", {
+                                                    <input type="text" defaultValue={user?.email} {...register("email", {
                                                         required: {
                                                             value: true,
                                                             message: "email is required"
                                                         }
                                                     })} placeholder="email" className="input input-bordered input-sm  max-w-xs lg:w-80 mb-3" />
-                                                    <input type="text" defaultValue={id} {...register("productName", {
+                                                    <input type="text" defaultValue={productName}{...register("productName", {
                                                         required: {
                                                             value: true,
                                                             message: "productName is required"
                                                         }
                                                     })} placeholder="product Name" className="input input-bordered input-sm  max-w-xs lg:w-80 mb-3" />
 
-                                                    <input type="number" {...register("price", {
+                                                    <input type="number" defaultValue={price}{...register("price", {
                                                         required: {
                                                             value: true,
                                                             message: "Price is required"
@@ -79,6 +119,12 @@ const PurchaseModal = () => {
                                                             message: "quantity is required"
                                                         }
                                                     })} placeholder="Quantity" className="input input-bordered input-sm max-w-xs lg:w-80 mb-3" />
+                                                    <input type="number" {...register("phone", {
+                                                        required: {
+                                                            value: true,
+                                                            message: "phone number is required"
+                                                        }
+                                                    })} placeholder="Phone number" className="input input-bordered input-sm max-w-xs lg:w-80 mb-3" />
                                                     <textarea {...register("address", {
                                                         required: {
                                                             value: true,
