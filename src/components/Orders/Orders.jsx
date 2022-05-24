@@ -1,8 +1,9 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
-
+import { useNavigate } from 'react-router-dom';
 const Orders = () => {
+    const navigate = useNavigate()
     const [orders, setOrders] = useState([])
     const handleDelete = async (id) => {
         try {
@@ -27,6 +28,10 @@ const Orders = () => {
         }
         fetchData()
     }, [orders])
+
+    const handlePayment = async (id) => {
+        navigate(`/dashboard/payment/${id}`)
+    }
     return (
         <div className="overflow-x-auto">
             <table className="table table-zebra w-full">
@@ -54,11 +59,14 @@ const Orders = () => {
                                 <th>{order?.total}</th>
                                 <th>{order?.address}</th>
                                 <th>{order?.isDeliver ? 'Delivered' : 'Pending'}</th>
-                                <th>{order?.isPaid === true ? "paid" : <button className='btn btn-info text-white'>pay</button>}</th>
+                                <th>{order?.isPaid === true ? "paid" :
+                                    <button onClick={() => handlePayment(order?._id)} className='btn btn-info text-white'>pay</button>
+
+                                }</th>
+
                                 <th><button onClick={() => handleDelete(order?._id)} className='btn btn-error text-white'>Cancel</button></th>
                             </tr>)
                     }
-
                 </tbody>
             </table>
         </div>

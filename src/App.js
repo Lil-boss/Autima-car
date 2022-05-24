@@ -18,7 +18,10 @@ import RequiredAuth from "./pages/Auth/RequiredAuth/RequiredAuth";
 import ManageOrders from "./components/ManageOrders/ManageOrders";
 import MyProfile from "./components/MyProfile/MyProfile";
 import UpdateUser from "./components/UpdateUser/UpdateUser";
-
+import Payments from "./components/Payments/Payments";
+import { loadStripe } from "@stripe/stripe-js";
+import { Elements } from "@stripe/react-stripe-js";
+const stripePromise = loadStripe('pk_test_51L33vZEbRaFU5Eq7u6bUTw2RiaaYnGEgIJv7MTBHCFBBW4mfzOOHIEPr35bRSq2okG8lZt67EybT5kmCZBkzwV5000XKJO2TEs');
 function App() {
   return (
     <div>
@@ -35,6 +38,11 @@ function App() {
           <Route index element={<MyProfile />} />
           <Route path="/dashboard/product" element={<AllProduct />} />
           <Route path="/dashboard/users" element={<AllUsers />} />
+          <Route path="/dashboard/payment/:id" element={
+            <Elements stripe={stripePromise}>
+              <Payments />
+            </Elements>
+          } />
           <Route path="/dashboard/manageOrders" element={<ManageOrders />} />
           <Route path="/dashboard/orders" element={<Orders />} />
           <Route path="/dashboard/reviews" element={<AllReviews />} />

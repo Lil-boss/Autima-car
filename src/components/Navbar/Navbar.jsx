@@ -4,7 +4,7 @@ import { useAuthState } from 'react-firebase-hooks/auth';
 import toast from 'react-hot-toast';
 import { Link } from 'react-router-dom';
 import auth from '../../pages/Auth/Firebase/firebase.init';
-
+import Loading from "../../pages/Extra/Loading/Loading"
 const Navbar = () => {
     const [user, loading] = useAuthState(auth);
     const logout = () => {
@@ -13,6 +13,9 @@ const Navbar = () => {
         }).catch((error) => {
             toast.error("not logout", { id: 'logout' });
         });
+    }
+    if (loading) {
+        return <Loading />
     }
     const navItem = <>
         <li className='hover:bg-secondary hover:text-white rounded-lg'><Link to="/">Home</Link></li>
