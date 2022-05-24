@@ -5,6 +5,7 @@ import { useCreateUserWithEmailAndPassword, useSignInWithGoogle, useUpdateProfil
 import auth from "../Firebase/firebase.init.js"
 import Loading from '../../Extra/Loading/Loading.jsx';
 import toast from 'react-hot-toast';
+import axios from 'axios';
 const Register = () => {
     const navigate = useNavigate()
     const location = useLocation()
@@ -19,10 +20,17 @@ const Register = () => {
     ] = useCreateUserWithEmailAndPassword(auth);
     const [updateProfile, updating, uError] = useUpdateProfile(auth);
     const onSubmit = async (data) => {
-        const { email, password } = data;
+        const { email, password, name } = data;
         try {
             await createUserWithEmailAndPassword(email, password, { sendEmailVerification: true });
             await updateProfile({ displayName: data.name });
+            const user = {
+                name: name,
+                email: email,
+                isAdmin: false,
+            }
+            await axios.post("https://autima.herokuapp.com/api/v1/users", user)
+                .then(res => console.log(res.data))
         } catch (error) {
             alert(error.message);
         }
