@@ -1,7 +1,25 @@
-import React from 'react';
+import axios from 'axios';
+import React, { useEffect, useState } from 'react';
 import { Link, Outlet } from 'react-router-dom';
-
+import { useAuthState } from 'react-firebase-hooks/auth';
+import auth from '../Auth/Firebase/firebase.init';
+import Loading from "../Extra/Loading/Loading"
 const Dashboard = () => {
+    const [user, loading] = useAuthState(auth);
+    const email = user.email;
+    const [users, setUsers] = useState({});
+    const admin = users[0]?.isAdmin;
+    useEffect(() => {
+        const fetchUser = async () => {
+            await axios.get(`https://autima.herokuapp.com/api/v1/user/${email}`)
+                .then(res => setUsers(res.data.data))
+        }
+        fetchUser();
+    }, [email])
+
+    if (loading) {
+        return <Loading />
+    }
     return (
         <div className='sticky'>
             <div className="w-full navbar bg-base-300">
@@ -22,19 +40,28 @@ const Dashboard = () => {
                 <div className="drawer-side">
                     <label htmlFor="my-drawer-3" className="drawer-overlay"></label>
                     <ul className="menu p-4 overflow-y-auto w-64 bg-base-100 text-white">
-                        <li className='bg-slate-900 rounded-md'>
-                            <Link to="/dashboard">All Product</Link>
-                        </li>
-                        <li className='bg-slate-900 mt-2 rounded-md'><Link to="/dashboard/users">All Users</Link></li>
-                        <li className='bg-slate-900 mt-2 rounded-md'><Link to="/dashboard/manageOrders">Manage Orders</Link></li>
-                        <li className='bg-slate-900 mt-2 rounded-md'><Link to="/dashboard/orders">Orders</Link></li>
-                        <li className='bg-slate-900 mt-2 rounded-md'><Link to="/dashboard/users">My Profile</Link></li>
-                        <li className='bg-slate-900 mt-2 rounded-md'><Link to="/dashboard/reviews">Reviews</Link></li>
-                        <li className='bg-slate-900 mt-2 rounded-md'><Link to="">Others</Link></li>
+                        <li className='bg-slate-900 mt-2 rounded-md'><Link to="/dashboard">My Profile</Link></li>
+                        {
+                            admin ?
+
+                                <>
+                                    <li className='bg-slate-900 rounded-md'>
+                                        <Link to="/dashboard/product">All Product</Link>
+                                    </li>
+                                    <li className='bg-slate-900 mt-2 rounded-md'><Link to="/dashboard/users">All Users</Link></li>
+                                    <li className='bg-slate-900 mt-2 rounded-md'><Link to="/dashboard/manageOrders">Manage Orders</Link></li>
+                                </>
+                                :
+                                <>
+                                    <li className='bg-slate-900 mt-2 rounded-md'><Link to="/dashboard/orders">Orders</Link></li>
+                                    <li className='bg-slate-900 mt-2 rounded-md'><Link to="/dashboard/reviews">Reviews</Link></li>
+                                </>
+
+                        }
+
                     </ul>
                 </div>
             </div>
-
         </div>
     );
 };

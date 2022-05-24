@@ -16,6 +16,8 @@ import Login from "./pages/Auth/Login/Login";
 import Register from "./pages/Auth/Register/Register";
 import RequiredAuth from "./pages/Auth/RequiredAuth/RequiredAuth";
 import ManageOrders from "./components/ManageOrders/ManageOrders";
+import MyProfile from "./components/MyProfile/MyProfile";
+import UpdateUser from "./components/UpdateUser/UpdateUser";
 
 function App() {
   return (
@@ -30,12 +32,14 @@ function App() {
           <RequiredAuth>
             <Dashboard />
           </RequiredAuth>}>
-          <Route index element={<AllProduct />} />
+          <Route index element={<MyProfile />} />
+          <Route path="/dashboard/product" element={<AllProduct />} />
           <Route path="/dashboard/users" element={<AllUsers />} />
           <Route path="/dashboard/manageOrders" element={<ManageOrders />} />
           <Route path="/dashboard/orders" element={<Orders />} />
           <Route path="/dashboard/reviews" element={<AllReviews />} />
           <Route path="/dashboard/update/:id" element={<UpdateModal />} />
+          <Route path="/dashboard/updateUser/:id" element={<UpdateUser />} />
         </Route>
         <Route path="/blogs" element={<Blogs />} />
         <Route path="/about" element={<About />} />
