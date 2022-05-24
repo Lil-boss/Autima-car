@@ -40,7 +40,7 @@ const Dashboard = () => {
                 <div className="drawer-side">
                     <label htmlFor="my-drawer-3" className="drawer-overlay"></label>
                     <ul className="menu p-4 overflow-y-auto w-64 bg-base-100 text-white">
-                        <li className='bg-slate-900 mt-2 rounded-md'><Link to="/dashboard">My Profile</Link></li>
+                        <li className='bg-slate-900 mb-2 rounded-md'><Link to="/dashboard">My Profile</Link></li>
                         {
                             admin ?
 
