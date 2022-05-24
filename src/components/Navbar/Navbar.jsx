@@ -1,14 +1,29 @@
+import { signOut } from 'firebase/auth';
 import React from 'react';
+import { useAuthState } from 'react-firebase-hooks/auth';
+import toast from 'react-hot-toast';
 import { Link } from 'react-router-dom';
+import auth from '../../pages/Auth/Firebase/firebase.init';
 
 const Navbar = () => {
+    const [user, loading] = useAuthState(auth);
+    const logout = () => {
+        signOut(auth).then(() => {
+            toast.success('Logged out successfully', { id: 'logout' });
+        }).catch((error) => {
+            toast.error("not logout", { id: 'logout' });
+        });
+    }
     const navItem = <>
         <li className='hover:bg-secondary hover:text-white rounded-lg'><Link to="/">Home</Link></li>
         <li className='hover:bg-secondary hover:text-white rounded-lg'><Link to="/about">About</Link></li>
         <li className='hover:bg-secondary hover:text-white rounded-lg'><Link to="/dashboard">Dashboard</Link></li>
         <li className='hover:bg-secondary hover:text-white rounded-lg '><Link to="/blogs">Blogs</Link></li>
         <li className='hover:bg-secondary hover:text-white rounded-lg '><Link to="/contact">Contact us</Link></li>
-        <li className='hover:bg-secondary hover:text-white rounded-lg '><Link to="/login">Login</Link></li>
+        {
+            user ? <li className='hover:bg-secondary hover:text-white rounded-lg '><button onClick={logout} >Logout</button></li> : <li className='hover:bg-secondary hover:text-white rounded-lg '><Link to="/login">Login</Link></li>
+        }
+
     </>
     return (
         <div className="navbar bg-base-100 sticky top-0 z-10">

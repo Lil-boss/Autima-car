@@ -12,6 +12,9 @@ import AllReviews from "./components/AllReviews/AllReviews";
 import UpdateModal from "./components/UpdateProductModal/UpdateModal";
 import { Toaster } from "react-hot-toast";
 import PurchaseModal from "./components/PurchaseModal/PurchaseModal";
+import Login from "./pages/Auth/Login/Login";
+import Register from "./pages/Auth/Register/Register";
+import RequiredAuth from "./pages/Auth/RequiredAuth/RequiredAuth";
 
 function App() {
   return (
@@ -19,8 +22,13 @@ function App() {
       <Toaster />
       <Navbar />
       <Routes>
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
         <Route path="/" element={<Home />} />
-        <Route path="/dashboard" element={<Dashboard />}>
+        <Route path="/dashboard" element={
+          <RequiredAuth>
+            <Dashboard />
+          </RequiredAuth>}>
           <Route index element={<AllProduct />} />
           <Route path="/dashboard/users" element={<AllUsers />} />
           <Route path="/dashboard/orders" element={<Orders />} />
@@ -29,7 +37,10 @@ function App() {
         </Route>
         <Route path="/blogs" element={<Blogs />} />
         <Route path="/about" element={<About />} />
-        <Route path="/purchase/:id" element={<PurchaseModal />} />
+        <Route path="/purchase/:id" element={
+          <RequiredAuth>
+            <PurchaseModal />
+          </RequiredAuth>} />
         <Route path="*" element={<ErrorPage />} />
       </Routes>
 
