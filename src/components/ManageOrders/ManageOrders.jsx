@@ -1,14 +1,14 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
-import toast from 'react-hot-toast';
 
-const Orders = () => {
-    const [orders, setOrders] = useState([])
+const ManageOrders = () => {
+    const [orders, setOrders] = useState([]);
+
     const handleDelete = async (id) => {
         try {
             await axios.delete(`https://autima.herokuapp.com/api/v1/order/${id}`)
                 .then(res => {
-                    toast.success("Order Cancelled Successfully", { id: "success" })
+                    console.log(res);
                 })
         } catch (err) {
             console.log(err);
@@ -32,7 +32,7 @@ const Orders = () => {
             <table className="table table-zebra w-full">
                 <thead>
                     <tr>
-                        <th>Your name</th>
+                        <th>customer name</th>
                         <th>Product Name</th>
                         <th>Quantity</th>
                         <th>price</th>
@@ -54,15 +54,21 @@ const Orders = () => {
                                 <th>{order?.total}</th>
                                 <th>{order?.address}</th>
                                 <th>{order?.isDeliver ? 'Delivered' : 'Pending'}</th>
-                                <th>{order?.isPaid === true ? "paid" : <button className='btn btn-info text-white'>pay</button>}</th>
-                                <th><button onClick={() => handleDelete(order?._id)} className='btn btn-error text-white'>Cancel</button></th>
+                                <th>{order?.isPaid === true ? "paid" : "unpaid"}</th>
+                                <th>
+                                    <button onClick={() => handleDelete(order?._id)} className='btn btn-error text-white'>Cancel</button>
+                                    {
+                                        order?.isPaid === true ? <button className='btn btn-secondary text-white ml-3'>Delivery</button>
+                                            :
+                                            ""
+                                    }
+                                </th>
                             </tr>)
                     }
-
                 </tbody>
             </table>
         </div>
     );
 };
 
-export default Orders;
+export default ManageOrders;

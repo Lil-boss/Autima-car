@@ -15,6 +15,7 @@ import PurchaseModal from "./components/PurchaseModal/PurchaseModal";
 import Login from "./pages/Auth/Login/Login";
 import Register from "./pages/Auth/Register/Register";
 import RequiredAuth from "./pages/Auth/RequiredAuth/RequiredAuth";
+import ManageOrders from "./components/ManageOrders/ManageOrders";
 
 function App() {
   return (
@@ -31,6 +32,7 @@ function App() {
           </RequiredAuth>}>
           <Route index element={<AllProduct />} />
           <Route path="/dashboard/users" element={<AllUsers />} />
+          <Route path="/dashboard/manageOrders" element={<ManageOrders />} />
           <Route path="/dashboard/orders" element={<Orders />} />
           <Route path="/dashboard/reviews" element={<AllReviews />} />
           <Route path="/dashboard/update/:id" element={<UpdateModal />} />

@@ -30,26 +30,59 @@ const PurchaseModal = () => {
         }
         fetchProduct()
     }, [id])
-    const onSubmit = async (data) => {
-        const { name, email, productName, qty, price, phone, address } = data
-        const order = {
-            name: name,
-            email: email,
-            productName: productName,
-            qty: qty,
-            price: price,
-            phone: phone,
-            address: address,
-            isDeliver: false,
-            isPaid: false,
-        }
+
+    useEffect(() => {
         const fetchData = async () => {
-            await axios.post(`https://autima.herokuapp.com/api/v1/orders`, order)
-                .then(res =>
-                    toast.success('Order Successfully Placed')
-                )
+
+            try {
+
+            } catch (err) {
+                console.log(err);
+            }
         }
-        fetchData()
+        fetchData();
+    }, [])
+    const onSubmit = async (data) => {
+        const { name, email, productName, qty, price, phone, address } = data;
+        const quantity = Number(qty);
+        const previousQty = Number(product.qty);
+        const totalQuantity = previousQty - quantity;
+        if (quantity > previousQty) {
+            toast.error("Sorry, we don't have enough stock for this product")
+
+        } else {
+
+            if (quantity < 50) {
+                toast.error("sorry you have to order over 50 at a time")
+            } else {
+                const totalPrice = Number(qty) * Number(price)
+                const order = {
+                    name: name,
+                    email: email,
+                    productName: productName,
+                    qty: qty,
+                    price: price,
+                    total: JSON.stringify(totalPrice),
+                    phone: phone,
+                    address: address,
+                    isDeliver: false,
+                    isPaid: false,
+                }
+                const fetchData = async () => {
+                    await axios.post(`https://autima.herokuapp.com/api/v1/orders`, order)
+                        .then(res =>
+                            toast.success('Order Successfully Placed')
+                        )
+                    await axios.put(`https://autima.herokuapp.com/api/v1/product/${id}`, {
+                        qty: JSON.stringify(totalQuantity)
+                    })
+                        .then(res => {
+                            toast.success("Product Updated Successfully", { id: "success" })
+                        });
+                }
+                fetchData()
+            }
+        }
     }
     return (
         <Transition.Root show={open} as={Fragment}>
@@ -118,7 +151,7 @@ const PurchaseModal = () => {
                                                             value: true,
                                                             message: "quantity is required"
                                                         }
-                                                    })} placeholder="Quantity" className="input input-bordered input-sm max-w-xs lg:w-80 mb-3" />
+                                                    })} placeholder="Order Over 50 Item" className="input input-bordered input-sm max-w-xs lg:w-80 mb-3" />
                                                     <input type="number" {...register("phone", {
                                                         required: {
                                                             value: true,
