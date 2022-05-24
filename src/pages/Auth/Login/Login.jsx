@@ -1,35 +1,61 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { useSignInWithGoogle } from 'react-firebase-hooks/auth';
+import { useSignInWithEmailAndPassword, useSignInWithGoogle } from 'react-firebase-hooks/auth';
 import auth from "../Firebase/firebase.init.js"
+import Loading from '../../Extra/Loading/Loading.jsx';
+import toast from 'react-hot-toast';
 const Login = () => {
     const navigate = useNavigate()
     const location = useLocation()
     const from = location.state ? location.state.from : { pathname: "/" }
     const { register, handleSubmit } = useForm();
-    const onSubmit = async (data) => console.log(data);
-    const [signInWithGoogle, user, loading, error] = useSignInWithGoogle(auth);
+    const [signInWithGoogle, gUser, gLoading, gError] = useSignInWithGoogle(auth);
 
-    if (user) {
-        navigate(from, { replace: true })
+    const [
+        signInWithEmailAndPassword,
+        user,
+        loading,
+        error,
+    ] = useSignInWithEmailAndPassword(auth);
+
+    const onSubmit = async (data) => {
+        const { email, password } = data;
+        try {
+            await signInWithEmailAndPassword(email, password);
+        } catch (error) {
+            alert(error.message);
+        }
     }
-    if (error) {
-        console.log(error);
+
+    if (user || gUser) {
+        navigate(from, { replace: true });
+        toast.success("Login Successful", { id: "success" });
+    }
+    if (error || gError) {
+        if (error.message.includes("auth/wrong-password")) {
+            toast.error("wrong password", { id: "wrong" })
+        }
+        if (error.message.includes("auth/user-not-found")) {
+            toast.error("user Not Found", { id: "wrong" })
+        }
+    }
+    if (gLoading || loading) {
+        return <Loading />
     }
     return (
         <div className='flex justify-center items-center my-10'>
             <div className="card max-w-lg bg-base-100 shadow-xl">
                 <div className="card-body">
                     <h2 className="card-title text-4xl">Login</h2>
-                    <form className='flex flex-col justify-center items-center'>
-                        <input type="text" {...register("email", {
+                    <form onSubmit={handleSubmit(onSubmit)} className='flex flex-col justify-center items-center'>
+                        <input type="email" {...register("email", {
                             required: {
                                 value: true,
                                 message: "email is required"
                             }
                         })} placeholder="email" className="input input-bordered w-full max-w-xs mt-3" />
-                        <input type="text" {...register("password", {
+                        <input type="password" {...register("password", {
                             required: {
                                 value: true,
                                 message: "password is required"
