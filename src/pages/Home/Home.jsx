@@ -5,29 +5,29 @@ import ProductCard from '../../components/ProductCard/ProductCard';
 import Footer from '../Extra/footer/Footer';
 import Banner from './Banner';
 import Reviews from './Reviews';
-
+import { useQuery } from 'react-query';
+import Loading from "../Extra/Loading/Loading"
+import { useAuthState } from 'react-firebase-hooks/auth';
+import auth from '../Auth/Firebase/firebase.init';
 const Home = () => {
-    const [product, setProduct] = useState([])
-
-    useEffect(() => {
-        const fetchProduct = async () => {
-            try {
-                await axios.get("https://autima.herokuapp.com/api/v1/products", {
-                    headers: {
-                        authorization: `Bearer ${localStorage.getItem('accessToken')}`
-                    }
-                })
-                    .then(res => {
-                        setProduct(res?.data?.data)
-                    })
-
-            } catch (err) {
-                console.log(err);
+    const [user] = useAuthState(auth)
+    const { isLoading, isError, data: products } = useQuery(['products', user?.email], async () => {
+        const result = await axios.get("https://autima.herokuapp.com/api/v1/products", {
+            headers: {
+                authorization: `Bearer ${localStorage.getItem('accessToken')}`
             }
-        }
-        fetchProduct()
-    }, [product])
-    const productData = product.slice(0, 6);
+        })
+        return result.data.data
+    });
+
+    if (isLoading) {
+        return <Loading />
+    }
+    if (isError) {
+        console.log(isError);
+    }
+
+    const productData = products?.slice(0, 6);
     return (
         <div>
             <Banner />
@@ -35,7 +35,7 @@ const Home = () => {
                 <div className='w-4/5 mx-auto'>
                     <div className='grid grid-cols-3 gap-3  my-20'>
                         {
-                            productData.map(item => <ProductCard key={item?._id} item={item} />)
+                            productData?.map(item => <ProductCard key={item?._id} item={item} />)
                         }
                     </div>
                     <div className="mb-20">

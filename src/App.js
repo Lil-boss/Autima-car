@@ -1,4 +1,5 @@
 import { Route, Routes } from "react-router-dom";
+import { QueryClient, QueryClientProvider } from 'react-query'
 import Navbar from "./components/Navbar/Navbar";
 import About from "./pages/About/About";
 import Dashboard from "./pages/Dashboard/Dashboard";
@@ -25,6 +26,7 @@ import ForgetPassword from "./pages/Auth/ForgetPassword/ForgetPassword";
 import ShowProduct from "./components/ShowProduct/ShowProduct";
 const stripePromise = loadStripe('pk_test_51L33vZEbRaFU5Eq7u6bUTw2RiaaYnGEgIJv7MTBHCFBBW4mfzOOHIEPr35bRSq2okG8lZt67EybT5kmCZBkzwV5000XKJO2TEs');
 function App() {
+  const queryClient = new QueryClient()
   return (
     <div>
       <Toaster />
@@ -33,7 +35,11 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/forgetPass" element={<ForgetPassword />} />
-        <Route path="/" element={<Home />} />
+        <Route path="/" element={
+          <QueryClientProvider client={queryClient}>
+            <Home />
+          </QueryClientProvider>
+        } />
         <Route path="/showProduct" element={
           <ShowProduct />
         } />
