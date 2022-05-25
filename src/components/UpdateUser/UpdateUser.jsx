@@ -67,7 +67,7 @@ const UpdateUser = () => {
                                         <Dialog.Title as="h3" className="text-lg leading-6 font-medium text-gray-900">
                                             <p className='text-center text-2xl'>Update User</p>
                                         </Dialog.Title>
-                                        <div className='grid sm:grid-cols-1 justify-items-center md:grid-cols-2 gap-3 '>
+                                        <div className='grid sm:grid-cols-1 justify-items-center lg:grid-cols-2 gap-3 '>
                                             <div className='w-4/5 mx-auto'>
                                                 <form onSubmit={handleSubmit(onSubmit)} className="ml-10">
                                                     <input type="text" defaultValue={displayName}  {...register("name", {
@@ -87,13 +87,13 @@ const UpdateUser = () => {
                                                             value: true,
                                                             message: "education is required"
                                                         }
-                                                    })} placeholder="education" className="input input-bordered input-sm  max-w-xs lg:w-80 mb-3" />
+                                                    })} placeholder="education" className="input input-bordered input-sm max-w-xs lg:w-80 mb-3" />
                                                     <textarea {...register("address", {
                                                         required: {
                                                             value: true,
                                                             message: "address is required"
                                                         }
-                                                    })} className="textarea textarea-bordered w-80" placeholder="address"></textarea>
+                                                    })} className="textarea textarea-bordered lg:w-80" placeholder="address"></textarea>
                                                     <input type="number" {...register("phone", {
                                                         required: {
                                                             value: true,
