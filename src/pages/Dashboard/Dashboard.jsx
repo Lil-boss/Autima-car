@@ -61,9 +61,7 @@ const Dashboard = () => {
                                     <li className='bg-slate-900 mt-2 rounded-md'><Link to="/dashboard/orders">Orders</Link></li>
                                     <li className='bg-slate-900 mt-2 rounded-md'><Link to="/dashboard/reviews">Reviews</Link></li>
                                 </>
-
                         }
-
                     </ul>
                 </div>
             </div>

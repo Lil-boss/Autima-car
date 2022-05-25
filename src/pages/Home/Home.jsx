@@ -1,5 +1,6 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
+import OurHistroy from '../../components/OurHistory/OurHistroy';
 import ProductCard from '../../components/ProductCard/ProductCard';
 import Footer from '../Extra/footer/Footer';
 import Banner from './Banner';
@@ -25,7 +26,7 @@ const Home = () => {
             }
         }
         fetchProduct()
-    }, [])
+    }, [product])
     const productData = product.slice(0, 6);
     return (
         <div>
@@ -36,6 +37,9 @@ const Home = () => {
                         {
                             productData.map(item => <ProductCard key={item?._id} item={item} />)
                         }
+                    </div>
+                    <div className="mb-20">
+                        <OurHistroy />
                     </div>
                     <div>
                         <h1 className='text-5xl text-center mb-10'>Our Customer says</h1>

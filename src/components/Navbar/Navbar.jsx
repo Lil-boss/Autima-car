@@ -19,6 +19,7 @@ const Navbar = () => {
     }
     const navItem = <>
         <li className='hover:bg-secondary hover:text-white rounded-lg'><Link to="/">Home</Link></li>
+        <li className='hover:bg-secondary hover:text-white rounded-lg'><Link to="/showProduct">Product</Link></li>
         <li className='hover:bg-secondary hover:text-white rounded-lg'><Link to="/about">About</Link></li>
         <li className='hover:bg-secondary hover:text-white rounded-lg'><Link to="/dashboard">Dashboard</Link></li>
         <li className='hover:bg-secondary hover:text-white rounded-lg '><Link to="/blogs">Blogs</Link></li>
