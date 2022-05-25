@@ -21,6 +21,11 @@ const Payments = () => {
     useEffect(() => {
         const fetchItem = async () => {
             await axios.post("https://autima.herokuapp.com/api/v1/create-payment-intent", {
+                headers: {
+                    "Content-Type": "application/json",
+                    "authorization": `Bearer ${localStorage.getItem("accessToken")}`
+                }
+            }, {
                 amount: amount,
             })
                 .then(res => {
@@ -73,6 +78,10 @@ const Payments = () => {
                 const fetchData = async () => {
                     try {
                         await axios.put(`https://autima.herokuapp.com/api/v1/order/${id}`, {
+                            headers: {
+                                authorization: `Bearer ${localStorage.getItem('accessToken')}`
+                            }
+                        }, {
                             isPaid: true,
                             paymentIntentId: paymentIntent?.id
                         });

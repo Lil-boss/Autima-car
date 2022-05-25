@@ -7,7 +7,11 @@ const ManageOrders = () => {
 
     const handleDelete = async (id) => {
         try {
-            await axios.delete(`https://autima.herokuapp.com/api/v1/order/${id}`)
+            await axios.delete(`https://autima.herokuapp.com/api/v1/order/${id}`, {
+                headers: {
+                    authorization: `Bearer ${localStorage.getItem('accessToken')}`
+                }
+            })
                 .then(res => {
                     console.log(res);
                 })
@@ -18,7 +22,11 @@ const ManageOrders = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                await axios.get(`https://autima.herokuapp.com/api/v1/orders`)
+                await axios.get(`https://autima.herokuapp.com/api/v1/orders`, {
+                    headers: {
+                        authorization: `Bearer ${localStorage.getItem('accessToken')}`
+                    }
+                })
                     .then(res =>
                         setOrders(res?.data?.data)
                     )
@@ -32,6 +40,10 @@ const ManageOrders = () => {
     const handleDeliver = async (id) => {
         try {
             await axios.put(`https://autima.herokuapp.com/api/v1/order/${id}`, {
+                headers: {
+                    authorization: `Bearer ${localStorage.getItem('accessToken')}`
+                }
+            }, {
                 isDeliver: true
             })
                 .then(res => {

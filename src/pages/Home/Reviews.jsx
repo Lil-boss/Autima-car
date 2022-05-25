@@ -7,9 +7,13 @@ const Reviews = () => {
     useEffect(() => {
         const fetchProducts = async () => {
             try {
-                await axios.get("https://autima.herokuapp.com/api/v1/reviews")
+                await axios.get("https://autima.herokuapp.com/api/v1/reviews", {
+                    headers: {
+                        authorization: `Bearer ${localStorage.getItem('accessToken')}`
+                    }
+                })
                     .then(res => {
-                        setReviews(res.data)
+                        setReviews(res?.data?.data)
                     })
 
             } catch (err) {

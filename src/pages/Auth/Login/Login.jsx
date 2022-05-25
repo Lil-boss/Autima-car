@@ -5,6 +5,7 @@ import { useSignInWithEmailAndPassword, useSignInWithGoogle } from 'react-fireba
 import auth from "../Firebase/firebase.init.js"
 import Loading from '../../Extra/Loading/Loading.jsx';
 import toast from 'react-hot-toast';
+import axios from 'axios';
 const Login = () => {
     const navigate = useNavigate()
     const location = useLocation()
@@ -23,6 +24,12 @@ const Login = () => {
         const { email, password } = data;
         try {
             await signInWithEmailAndPassword(email, password);
+            await axios.post("https://autima.herokuapp.com/api/v1/auth", {
+                user: email,
+            })
+                .then(res => {
+                    localStorage.setItem('accessToken', res.data.accessToken)
+                })
         } catch (error) {
             alert(error.message);
         }

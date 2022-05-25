@@ -25,7 +25,11 @@ const UpdateUser = () => {
                 phone: phone
             }
             try {
-                await axios.put(`https://autima.herokuapp.com/api/v1/user/${id}`, user)
+                await axios.put(`https://autima.herokuapp.com/api/v1/user/${id}`, {
+                    headers: {
+                        authorization: `Bearer ${localStorage.getItem('accessToken')}`
+                    }
+                }, user)
                     .then(res => toast.success("User Updated Successfully", { id: "success" }))
             } catch (err) {
                 console.log(err);

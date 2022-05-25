@@ -31,7 +31,11 @@ const AllProduct = () => {
                         totalPrice: JSON.stringify(total)
                     }
                     const fetchData = async () => {
-                        await axios.post("https://autima.herokuapp.com/api/v1/products", product)
+                        await axios.post("https://autima.herokuapp.com/api/v1/products", {
+                            headers: {
+                                authorization: `Bearer ${localStorage.getItem('accessToken')}`
+                            }
+                        }, product)
                             .then(res => {
                                 toast.success("Product Added Successfully", { id: "success" })
                             });
@@ -44,7 +48,11 @@ const AllProduct = () => {
     useEffect(() => {
         const fetchProducts = async () => {
             try {
-                await axios.get("https://autima.herokuapp.com/api/v1/products")
+                await axios.get("https://autima.herokuapp.com/api/v1/products", {
+                    headers: {
+                        authorization: `Bearer ${localStorage.getItem('accessToken')}`
+                    }
+                })
                     .then(res => {
                         setProducts(res.data.data)
                     })
@@ -58,7 +66,11 @@ const AllProduct = () => {
 
 
     const handleDelete = async (id) => {
-        await axios.delete(`https://autima.herokuapp.com/api/v1/product/${id}`)
+        await axios.delete(`https://autima.herokuapp.com/api/v1/product/${id}`, {
+            headers: {
+                authorization: `Bearer ${localStorage.getItem('accessToken')}`
+            }
+        })
             .then(res =>
                 toast.success("Product Deleted Successfully", { id: "success" })
             );

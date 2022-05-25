@@ -30,18 +30,6 @@ const PurchaseModal = () => {
         }
         fetchProduct()
     }, [id])
-
-    useEffect(() => {
-        const fetchData = async () => {
-
-            try {
-
-            } catch (err) {
-                console.log(err);
-            }
-        }
-        fetchData();
-    }, [])
     const onSubmit = async (data) => {
         const { name, email, productName, qty, price, phone, address } = data;
         const quantity = Number(qty);
@@ -69,11 +57,19 @@ const PurchaseModal = () => {
                     isPaid: false,
                 }
                 const fetchData = async () => {
-                    await axios.post(`https://autima.herokuapp.com/api/v1/orders`, order)
+                    await axios.post(`https://autima.herokuapp.com/api/v1/orders`, {
+                        headers: {
+                            authorization: `Bearer ${localStorage.getItem('accessToken')}`
+                        }
+                    }, order)
                         .then(res =>
                             toast.success('Order Successfully Placed')
                         )
                     await axios.put(`https://autima.herokuapp.com/api/v1/product/${id}`, {
+                        headers: {
+                            authorization: `Bearer ${localStorage.getItem('accessToken')}`
+                        }
+                    }, {
                         qty: JSON.stringify(totalQuantity)
                     })
                         .then(res => {

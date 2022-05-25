@@ -11,7 +11,11 @@ const Home = () => {
     useEffect(() => {
         const fetchProduct = async () => {
             try {
-                await axios.get("https://autima.herokuapp.com/api/v1/products")
+                await axios.get("https://autima.herokuapp.com/api/v1/products", {
+                    headers: {
+                        authorization: `Bearer ${localStorage.getItem('accessToken')}`
+                    }
+                })
                     .then(res => {
                         setProduct(res?.data?.data)
                     })

@@ -7,7 +7,11 @@ const AllUsers = () => {
     useEffect(() => {
         const fetchProducts = async () => {
             try {
-                await axios.get("https://autima.herokuapp.com/api/v1/users")
+                await axios.get("https://autima.herokuapp.com/api/v1/users", {
+                    headers: {
+                        authorization: `Bearer ${localStorage.getItem('accessToken')}`
+                    }
+                })
                     .then(res => {
                         setUsers(res.data.data)
                     })
@@ -22,10 +26,28 @@ const AllUsers = () => {
     const handleAdmin = async (id) => {
         try {
             await axios.put(`https://autima.herokuapp.com/api/v1/user/${id}`, {
+                headers: {
+                    authorization: `Bearer ${localStorage.getItem('accessToken')}`
+                }
+            }, {
                 isAdmin: true
             })
                 .then(res => {
                     toast.success("User is now an admin", { id: "admin" })
+                })
+        } catch (err) {
+            console.log(err);
+        }
+    }
+    const handleDelete = async (id) => {
+        try {
+            await axios.delete(`https://autima.herokuapp.com/api/v1/user/${id}`, {
+                headers: {
+                    authorization: `Bearer ${localStorage.getItem('accessToken')}`
+                }
+            })
+                .then(res => {
+                    toast.success("User is now deleted", { id: "delete" })
                 })
         } catch (err) {
             console.log(err);
@@ -54,7 +76,7 @@ const AllUsers = () => {
                             <th>{user.phone}</th>
                             <th>{user.isAdmin === true ? <p className='text-green-600'>Admin</p> : <p>User</p>}</th>
                             <th>
-                                <button className="bg-error text-white font-bold py-2 px-4 rounded">
+                                <button onClick={() => handleDelete(user?._id)} className="bg-error text-white font-bold py-2 px-4 rounded">
                                     Delete
                                 </button>
                                 {

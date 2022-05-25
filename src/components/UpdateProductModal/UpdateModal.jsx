@@ -16,7 +16,11 @@ const UpdateModal = () => {
     useEffect(() => {
         const fetchProduct = async () => {
             try {
-                await axios.get(`https://autima.herokuapp.com/api/v1/product/${id}`)
+                await axios.get(`https://autima.herokuapp.com/api/v1/product/${id}`, {
+                    headers: {
+                        authorization: `Bearer ${localStorage.getItem('accessToken')}`
+                    }
+                })
                     .then(res => setProduct(res.data.data))
             } catch (err) {
                 console.log(err);
@@ -30,7 +34,6 @@ const UpdateModal = () => {
         const formData = new FormData();
         formData.append("image", image);
         const url = `https://api.imgbb.com/1/upload?key=${process.env.REACT_APP_imageBB_KEY}`;
-        console.log(url);
         await axios.post(url, formData)
             .then(res => {
                 const result = res.data;
@@ -48,7 +51,11 @@ const UpdateModal = () => {
                         totalPrice: JSON.stringify(total)
                     }
                     const fetchData = async () => {
-                        await axios.put(`https://autima.herokuapp.com/api/v1/product/${id}`, product)
+                        await axios.put(`https://autima.herokuapp.com/api/v1/product/${id}`, {
+                            headers: {
+                                authorization: `Bearer ${localStorage.getItem('accessToken')}`
+                            }
+                        }, product)
                             .then(res => {
                                 toast.success("Product Updated Successfully", { id: "success" })
                             });

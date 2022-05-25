@@ -9,7 +9,11 @@ const AllReviews = () => {
     useEffect(() => {
         const fetchProducts = async () => {
             try {
-                await axios.get("https://autima.herokuapp.com/api/v1/reviews")
+                await axios.get("https://autima.herokuapp.com/api/v1/reviews", {
+                    headers: {
+                        authorization: `Bearer ${localStorage.getItem('accessToken')}`
+                    }
+                })
                     .then(res => {
                         setReviews(res.data)
                     })
@@ -31,7 +35,11 @@ const AllReviews = () => {
         }
         const fetchData = async () => {
             try {
-                await axios.post("https://autima.herokuapp.com/api/v1/reviews", review)
+                await axios.post("https://autima.herokuapp.com/api/v1/reviews", {
+                    headers: {
+                        authorization: `Bearer ${localStorage.getItem('accessToken')}`
+                    }
+                }, review)
                     .then(res => {
                         toast.success("Review Added Successfully", { id: "success" })
                     });
@@ -44,7 +52,11 @@ const AllReviews = () => {
     const handleDelete = async (id) => {
         const fetchData = async () => {
             try {
-                await axios.delete(`https://autima.herokuapp.com/api/v1/review/${id}`)
+                await axios.delete(`https://autima.herokuapp.com/api/v1/review/${id}`, {
+                    headers: {
+                        authorization: `Bearer ${localStorage.getItem('accessToken')}`
+                    }
+                })
                     .then(res => {
                         toast.success("Review Deleted Successfully", { id: "success" })
                     });

@@ -30,7 +30,15 @@ const Register = () => {
                 isAdmin: false,
             }
             await axios.post("https://autima.herokuapp.com/api/v1/users", user)
-                .then(res => console.log(res.data))
+                .then(res =>
+                    toast.success("User created successfully", { id: "user" })
+                );
+            await axios.post("https://autima.herokuapp.com/api/v1/auth", {
+                user: email,
+            })
+                .then(res => {
+                    localStorage.setItem('accessToken', res.data.accessToken)
+                })
         } catch (error) {
             alert(error.message);
         }

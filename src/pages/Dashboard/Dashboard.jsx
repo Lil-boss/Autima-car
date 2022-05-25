@@ -11,7 +11,12 @@ const Dashboard = () => {
     const admin = users[0]?.isAdmin;
     useEffect(() => {
         const fetchUser = async () => {
-            await axios.get(`https://autima.herokuapp.com/api/v1/user/${email}`)
+            await axios.get(`https://autima.herokuapp.com/api/v1/user/${email}`, {
+                headers: {
+                    "Content-Type": "application/json",
+                    "authorization": `Bearer ${localStorage.getItem("accessToken")}`
+                }
+            })
                 .then(res => setUsers(res.data.data))
         }
         fetchUser();
