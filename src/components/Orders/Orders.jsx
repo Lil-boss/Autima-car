@@ -9,7 +9,6 @@ const Orders = () => {
     const [orders, setOrders] = useState([])
     const [user] = useAuthState(auth);
     const email = user?.email;
-    console.log(email);
     const handleDelete = async (id) => {
         try {
             await axios.delete(`https://autima.herokuapp.com/api/v1/order/${id}`)
@@ -55,7 +54,6 @@ const Orders = () => {
                 </thead>
                 <tbody>
                     {
-
                         orders.map((order) =>
                             <>
                                 <tr key={order._id}>
@@ -65,13 +63,13 @@ const Orders = () => {
                                     <th>{order?.price}</th>
                                     <th>{order?.total}</th>
                                     <th>{order?.address}</th>
-                                    <th>{order?.isDeliver ? 'Delivered' : 'Delivery pending'}</th>
+                                    <th>{order?.isDeliver === true ? 'Delivered' : 'Delivery pending'}</th>
                                     <th>{order?.isPaid === true ? "paid" :
                                         <button onClick={() => handlePayment(order?._id)} className='btn btn-info text-white'>pay</button>
                                     }</th>
                                     <th>
                                         {
-                                            order?.isPaid === true ? ""
+                                            order?.isPaid === true ? <p>{order?.transitionId}</p>
                                                 :
                                                 <button onClick={() => handleDelete(order?._id)} className='btn btn-error text-white'>Cancel</button>
                                         }

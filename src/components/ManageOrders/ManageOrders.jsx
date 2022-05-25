@@ -7,11 +7,7 @@ const ManageOrders = () => {
 
     const handleDelete = async (id) => {
         try {
-            await axios.delete(`https://autima.herokuapp.com/api/v1/order/${id}`, {
-                headers: {
-                    authorization: `Bearer ${localStorage.getItem('accessToken')}`
-                }
-            })
+            await axios.delete(`https://autima.herokuapp.com/api/v1/order/${id}`)
                 .then(res => {
                     console.log(res);
                 })
@@ -40,10 +36,6 @@ const ManageOrders = () => {
     const handleDeliver = async (id) => {
         try {
             await axios.put(`https://autima.herokuapp.com/api/v1/order/${id}`, {
-                headers: {
-                    authorization: `Bearer ${localStorage.getItem('accessToken')}`
-                }
-            }, {
                 isDeliver: true
             })
                 .then(res => {
@@ -80,7 +72,7 @@ const ManageOrders = () => {
                                 <th>{order?.total}</th>
                                 <th>{order?.address}</th>
                                 <th>{order?.isDeliver ? 'Delivered' : 'Pending'}</th>
-                                <th>{order?.isPaid === true ? "paid" : "unpaid"}</th>
+                                <th>{order?.isPaid === true ? <p>{order?.transitionId}</p> : "unpaid"}</th>
                                 <th>
                                     {
                                         order?.isPaid === true ? "" : <button onClick={() => handleDelete(order?._id)} className='btn btn-error text-white'>Cancel</button>
