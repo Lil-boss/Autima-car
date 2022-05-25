@@ -50,22 +50,34 @@ const Orders = () => {
                 </thead>
                 <tbody>
                     {
+
                         orders.map((order) =>
-                            <tr key={order._id}>
-                                <th>{order?.name}</th>
-                                <th>{order?.productName}</th>
-                                <th>{order?.qty}</th>
-                                <th>{order?.price}</th>
-                                <th>{order?.total}</th>
-                                <th>{order?.address}</th>
-                                <th>{order?.isDeliver ? 'Delivered' : 'Pending'}</th>
-                                <th>{order?.isPaid === true ? "paid" :
-                                    <button onClick={() => handlePayment(order?._id)} className='btn btn-info text-white'>pay</button>
+                            <>
+                                <tr key={order._id}>
+                                    <th>{order?.name}</th>
+                                    <th>{order?.productName}</th>
+                                    <th>{order?.qty}</th>
+                                    <th>{order?.price}</th>
+                                    <th>{order?.total}</th>
+                                    <th>{order?.address}</th>
+                                    <th>{order?.isDeliver ? 'Delivered' : 'Delivery pending'}</th>
+                                    <th>{order?.isPaid === true ? "paid" :
+                                        <button onClick={() => handlePayment(order?._id)} className='btn btn-info text-white'>pay</button>
 
-                                }</th>
+                                    }</th>
 
-                                <th><button onClick={() => handleDelete(order?._id)} className='btn btn-error text-white'>Cancel</button></th>
-                            </tr>)
+                                    <th>
+                                        {
+                                            order?.isPaid === true ? ""
+                                                :
+                                                <button onClick={() => handleDelete(order?._id)} className='btn btn-error text-white'>Cancel</button>
+                                        }
+
+                                    </th>
+                                </tr>
+                            </>
+                        )
+
                     }
                 </tbody>
             </table>
