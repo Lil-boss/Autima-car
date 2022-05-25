@@ -22,6 +22,7 @@ const Home = () => {
         }
         fetchProduct()
     }, [])
+    const productData = product.slice(0, 6);
     return (
         <div>
             <Banner />
@@ -29,7 +30,7 @@ const Home = () => {
                 <div className='w-4/5 mx-auto'>
                     <div className='grid grid-cols-3 gap-3  my-20'>
                         {
-                            product.map(item => <ProductCard key={item?._id} item={item} />)
+                            productData.map(item => <ProductCard key={item?._id} item={item} />)
                         }
                     </div>
                     <div>

@@ -63,16 +63,13 @@ const Orders = () => {
                                     <th>{order?.isDeliver ? 'Delivered' : 'Delivery pending'}</th>
                                     <th>{order?.isPaid === true ? "paid" :
                                         <button onClick={() => handlePayment(order?._id)} className='btn btn-info text-white'>pay</button>
-
                                     }</th>
-
                                     <th>
                                         {
                                             order?.isPaid === true ? ""
                                                 :
                                                 <button onClick={() => handleDelete(order?._id)} className='btn btn-error text-white'>Cancel</button>
                                         }
-
                                     </th>
                                 </tr>
                             </>

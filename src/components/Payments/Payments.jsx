@@ -69,12 +69,12 @@ const Payments = () => {
         if (payError) {
             setError(payError?.message);
         } else {
-            console.log(paymentIntent);
             if (paymentIntent?.status === 'succeeded') {
                 const fetchData = async () => {
                     try {
                         await axios.put(`https://autima.herokuapp.com/api/v1/order/${id}`, {
                             isPaid: true,
+                            paymentIntentId: paymentIntent?.id
                         });
                     } catch (err) {
                         console.log(err);
