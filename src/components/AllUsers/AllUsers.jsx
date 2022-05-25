@@ -1,5 +1,6 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
+import toast from 'react-hot-toast';
 
 const AllUsers = () => {
     const [users, setUsers] = useState([]);
@@ -17,6 +18,19 @@ const AllUsers = () => {
         }
         fetchProducts()
     }, [users])
+
+    const handleAdmin = async (id) => {
+        try {
+            await axios.put(`https://autima.herokuapp.com/api/v1/user/${id}`, {
+                isAdmin: true
+            })
+                .then(res => {
+                    toast.success("User is now an admin", { id: "admin" })
+                })
+        } catch (err) {
+            console.log(err);
+        }
+    }
     return (
         <div className="overflow-x-auto">
             <table className="table table-zebra w-full">
@@ -36,13 +50,21 @@ const AllUsers = () => {
                         users.map(user => <tr key={user._id}>
                             <th>{user.name}</th>
                             <th>{user.email}</th>
-                            <th></th>
-                            <th></th>
+                            <th>{user.address}</th>
+                            <th>{user.phone}</th>
                             <th>{user.isAdmin === true ? <p className='text-green-600'>Admin</p> : <p>User</p>}</th>
                             <th>
                                 <button className="bg-error text-white font-bold py-2 px-4 rounded">
                                     Delete
                                 </button>
+                                {
+                                    user?.isAdmin === false ?
+                                        <button onClick={() => handleAdmin(user?._id)} className="bg-secondary text-white font-bold py-2 px-4 rounded ml-2">
+                                            Make Admin
+                                        </button>
+                                        :
+                                        ""
+                                }
                             </th>
                         </tr>)
                     }
