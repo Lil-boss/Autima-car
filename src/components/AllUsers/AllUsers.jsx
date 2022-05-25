@@ -26,10 +26,6 @@ const AllUsers = () => {
     const handleAdmin = async (id) => {
         try {
             await axios.put(`https://autima.herokuapp.com/api/v1/user/${id}`, {
-                headers: {
-                    authorization: `Bearer ${localStorage.getItem('accessToken')}`
-                }
-            }, {
                 isAdmin: true
             })
                 .then(res => {
@@ -41,11 +37,7 @@ const AllUsers = () => {
     }
     const handleDelete = async (id) => {
         try {
-            await axios.delete(`https://autima.herokuapp.com/api/v1/user/${id}`, {
-                headers: {
-                    authorization: `Bearer ${localStorage.getItem('accessToken')}`
-                }
-            })
+            await axios.delete(`https://autima.herokuapp.com/api/v1/user/${id}`)
                 .then(res => {
                     toast.success("User is now deleted", { id: "delete" })
                 })

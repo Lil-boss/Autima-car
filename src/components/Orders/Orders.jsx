@@ -1,17 +1,18 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
+import { useAuthState } from 'react-firebase-hooks/auth';
 import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
+import auth from '../../pages/Auth/Firebase/firebase.init';
 const Orders = () => {
     const navigate = useNavigate()
     const [orders, setOrders] = useState([])
+    const [user] = useAuthState(auth);
+    const email = user?.email;
+    console.log(email);
     const handleDelete = async (id) => {
         try {
-            await axios.delete(`https://autima.herokuapp.com/api/v1/order/${id}`, {
-                headers: {
-                    authorization: `Bearer ${localStorage.getItem('accessToken')}`
-                }
-            })
+            await axios.delete(`https://autima.herokuapp.com/api/v1/order/${id}`)
                 .then(res => {
                     toast.success("Order Cancelled Successfully", { id: "success" })
                 })
@@ -22,20 +23,16 @@ const Orders = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                await axios.get(`https://autima.herokuapp.com/api/v1/orders`, {
-                    headers: {
-                        authorization: `Bearer ${localStorage.getItem('accessToken')}`
-                    }
-                })
+                await axios.get(`https://autima.herokuapp.com/api/v1/orders/${email}`)
                     .then(res =>
-                        setOrders(res?.data?.data)
+                        setOrders(res?.data)
                     )
             } catch (err) {
                 console.log(err);
             }
         }
         fetchData()
-    }, [orders])
+    }, [email])
 
     const handlePayment = async (id) => {
         navigate(`/dashboard/payment/${id}`)

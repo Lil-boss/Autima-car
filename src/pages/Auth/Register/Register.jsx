@@ -21,27 +21,34 @@ const Register = () => {
     const [updateProfile, updating, uError] = useUpdateProfile(auth);
     const onSubmit = async (data) => {
         const { email, password, name } = data;
-        try {
-            await createUserWithEmailAndPassword(email, password, { sendEmailVerification: true });
-            await updateProfile({ displayName: data.name });
-            const user = {
-                name: name,
-                email: email,
-                isAdmin: false,
-            }
-            await axios.post("https://autima.herokuapp.com/api/v1/users", user)
-                .then(res =>
-                    toast.success("User created successfully", { id: "user" })
-                );
-            await axios.post("https://autima.herokuapp.com/api/v1/auth", {
-                user: email,
-            })
-                .then(res => {
-                    localStorage.setItem('accessToken', res.data.accessToken)
-                })
-        } catch (error) {
-            alert(error.message);
+        const user = {
+            name: name,
+            email: email,
+            isAdmin: false,
         }
+
+        await createUserWithEmailAndPassword(email, password, { sendEmailVerification: true });
+        await updateProfile({ displayName: data.name });
+        await axios.post("https://autima.herokuapp.com/api/v1/auth", {
+            user: email,
+        })
+            .then(res => {
+                localStorage.setItem('accessToken', res.data.accessToken)
+            })
+
+        const fetchUser = async () => {
+            try {
+                await axios.post("https://autima.herokuapp.com/api/v1/users", user)
+                    .then(res =>
+                        toast.success("User created successfully", { id: "user" })
+                    );
+
+            } catch (err) {
+                toast.error("Error creating user", { id: "user" })
+            }
+        }
+        fetchUser();
+
     }
 
     if (gUser || user) {

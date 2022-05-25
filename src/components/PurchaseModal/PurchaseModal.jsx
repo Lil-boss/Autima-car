@@ -19,7 +19,11 @@ const PurchaseModal = () => {
     useEffect(() => {
         const fetchProduct = async () => {
             try {
-                await axios.get(`https://autima.herokuapp.com/api/v1/product/${id}`)
+                await axios.get(`https://autima.herokuapp.com/api/v1/product/${id}`, {
+                    headers: {
+                        authorization: `Bearer ${localStorage.getItem('accessToken')}`
+                    }
+                })
                     .then(res => {
                         setProduct(res?.data?.data)
                     })
@@ -30,7 +34,7 @@ const PurchaseModal = () => {
         }
         fetchProduct()
     }, [id])
-    const onSubmit = async (data) => {
+    const onSubmit = (data) => {
         const { name, email, productName, qty, price, phone, address } = data;
         const quantity = Number(qty);
         const previousQty = Number(product.qty);
@@ -56,25 +60,15 @@ const PurchaseModal = () => {
                     isDeliver: false,
                     isPaid: false,
                 }
+
                 const fetchData = async () => {
-                    await axios.post(`https://autima.herokuapp.com/api/v1/orders`, {
-                        headers: {
-                            authorization: `Bearer ${localStorage.getItem('accessToken')}`
-                        }
-                    }, order)
+                    await axios.post(`https://autima.herokuapp.com/api/v1/orders`, order)
                         .then(res =>
                             toast.success('Order Successfully Placed')
                         )
                     await axios.put(`https://autima.herokuapp.com/api/v1/product/${id}`, {
-                        headers: {
-                            authorization: `Bearer ${localStorage.getItem('accessToken')}`
-                        }
-                    }, {
                         qty: JSON.stringify(totalQuantity)
                     })
-                        .then(res => {
-                            toast.success("Product Updated Successfully", { id: "success" })
-                        });
                 }
                 fetchData()
             }

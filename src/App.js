@@ -21,6 +21,7 @@ import UpdateUser from "./components/UpdateUser/UpdateUser";
 import Payments from "./components/Payments/Payments";
 import { loadStripe } from "@stripe/stripe-js";
 import { Elements } from "@stripe/react-stripe-js";
+import ForgetPassword from "./pages/Auth/ForgetPassword/ForgetPassword";
 const stripePromise = loadStripe('pk_test_51L33vZEbRaFU5Eq7u6bUTw2RiaaYnGEgIJv7MTBHCFBBW4mfzOOHIEPr35bRSq2okG8lZt67EybT5kmCZBkzwV5000XKJO2TEs');
 function App() {
   return (
@@ -30,6 +31,7 @@ function App() {
       <Routes>
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
+        <Route path="/forgetPass" element={<ForgetPassword />} />
         <Route path="/" element={<Home />} />
         <Route path="/dashboard" element={
           <RequiredAuth>

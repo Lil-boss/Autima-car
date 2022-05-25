@@ -2,20 +2,20 @@ import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
-
+import { useAuthState } from 'react-firebase-hooks/auth';
+import auth from '../../pages/Auth/Firebase/firebase.init';
 const AllReviews = () => {
+    const [user] = useAuthState(auth);
     const { register, handleSubmit } = useForm();
     const [reviews, setReviews] = useState([]);
+    const { displayName, email } = user;
+    console.log(email);
     useEffect(() => {
         const fetchProducts = async () => {
             try {
-                await axios.get("https://autima.herokuapp.com/api/v1/reviews", {
-                    headers: {
-                        authorization: `Bearer ${localStorage.getItem('accessToken')}`
-                    }
-                })
+                await axios.get(`https://autima.herokuapp.com/api/v1/review/${email}`)
                     .then(res => {
-                        setReviews(res.data)
+                        setReviews(res?.data?.data)
                     })
 
             } catch (err) {
@@ -23,7 +23,7 @@ const AllReviews = () => {
             }
         }
         fetchProducts()
-    }, [reviews])
+    }, [email])
     const onSubmit = async (data) => {
         const { name, email, reviewTitle, description, ratings } = data;
         const review = {
@@ -35,11 +35,7 @@ const AllReviews = () => {
         }
         const fetchData = async () => {
             try {
-                await axios.post("https://autima.herokuapp.com/api/v1/reviews", {
-                    headers: {
-                        authorization: `Bearer ${localStorage.getItem('accessToken')}`
-                    }
-                }, review)
+                await axios.post("https://autima.herokuapp.com/api/v1/reviews", review)
                     .then(res => {
                         toast.success("Review Added Successfully", { id: "success" })
                     });
@@ -52,11 +48,7 @@ const AllReviews = () => {
     const handleDelete = async (id) => {
         const fetchData = async () => {
             try {
-                await axios.delete(`https://autima.herokuapp.com/api/v1/review/${id}`, {
-                    headers: {
-                        authorization: `Bearer ${localStorage.getItem('accessToken')}`
-                    }
-                })
+                await axios.delete(`https://autima.herokuapp.com/api/v1/review/${id}`)
                     .then(res => {
                         toast.success("Review Deleted Successfully", { id: "success" })
                     });
@@ -80,14 +72,14 @@ const AllReviews = () => {
                             <h3 className="font-bold text-lg">Add Reviews</h3>
                             <div className='mt-3'>
                                 <form onSubmit={handleSubmit(onSubmit)} className='grid grid-cols-1 gap-4 justify-items-center'>
-                                    <input type="text" {...register("name", {
+                                    <input type="text" defaultValue={displayName}{...register("name", {
                                         required: {
                                             value: true,
                                             message: "name is required"
                                         }
                                     })} placeholder="Name" className="input input-bordered input-sm w-full max-w-xs" />
 
-                                    <input type="email" {...register("email", {
+                                    <input type="email" defaultValue={email} {...register("email", {
                                         required: {
                                             value: true,
                                             message: "email is required"

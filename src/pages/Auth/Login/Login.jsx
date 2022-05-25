@@ -69,7 +69,7 @@ const Login = () => {
                             }
                         })} placeholder="password" className="input input-bordered w-full max-w-xs my-3" />
                         <p>Don't have any account? <Link to="/register" className='text-secondary'>Register</Link></p>
-                        <p className='mb-3'><Link to="/forget" className='text-secondary'>Forget password</Link></p>
+                        <p className='mb-3'><Link to="/forgetPass" className='text-secondary'>Forget password</Link></p>
                         <button className='btn btn-secondary w-full text-white'>Login</button>
                         <div className="divider">OR</div>
                     </form>
