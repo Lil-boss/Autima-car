@@ -8,7 +8,7 @@ import { Link, useParams } from 'react-router-dom';
 import auth from '../../pages/Auth/Firebase/firebase.init';
 
 const Payments = () => {
-    const [user, loading] = useAuthState(auth);
+    const [user] = useAuthState(auth);
     const { id } = useParams();
     const [open, setOpen] = useState(true)
     const cancelButtonRef = useRef(null);
@@ -40,7 +40,7 @@ const Payments = () => {
             return;
         }
 
-        const { error, paymentMethod } = await stripe.createPaymentMethod({
+        const { error } = await stripe.createPaymentMethod({
             type: 'card',
             card,
         });
