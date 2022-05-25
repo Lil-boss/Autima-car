@@ -1,5 +1,6 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
+import toast from 'react-hot-toast';
 
 const ManageOrders = () => {
     const [orders, setOrders] = useState([]);
@@ -27,6 +28,19 @@ const ManageOrders = () => {
         }
         fetchData()
     }, [orders])
+
+    const handleDeliver = async (id) => {
+        try {
+            await axios.put(`https://autima.herokuapp.com/api/v1/order/${id}`, {
+                isDeliver: true
+            })
+                .then(res => {
+                    toast.success("Order is now delivered", { id: "deliver" })
+                })
+        } catch (err) {
+            console.log(err);
+        }
+    }
     return (
         <div className="overflow-x-auto">
             <table className="table table-zebra w-full">
@@ -56,11 +70,12 @@ const ManageOrders = () => {
                                 <th>{order?.isDeliver ? 'Delivered' : 'Pending'}</th>
                                 <th>{order?.isPaid === true ? "paid" : "unpaid"}</th>
                                 <th>
-                                    <button onClick={() => handleDelete(order?._id)} className='btn btn-error text-white'>Cancel</button>
                                     {
-                                        order?.isPaid === true ? <button className='btn btn-secondary text-white ml-3'>Delivery</button>
-                                            :
-                                            ""
+                                        order?.isPaid === true ? "" : <button onClick={() => handleDelete(order?._id)} className='btn btn-error text-white'>Cancel</button>
+                                    }
+                                    {
+                                        order?.isDeliver === false ? <button onClick={() => handleDeliver(order?._id)} className='btn btn-secondary text-white ml-3'>Delivery</button>
+                                            : ""
                                     }
                                 </th>
                             </tr>)
