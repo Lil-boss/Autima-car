@@ -9,7 +9,6 @@ const AllReviews = () => {
     const { register, handleSubmit } = useForm();
     const [reviews, setReviews] = useState([]);
     const { displayName, email } = user;
-    console.log(email);
     useEffect(() => {
         const fetchProducts = async () => {
             try {
