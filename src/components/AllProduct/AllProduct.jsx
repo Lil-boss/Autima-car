@@ -138,8 +138,6 @@ const AllProduct = () => {
                             <th>Description</th>
                             <th>Price</th>
                             <th>Stock Quantity</th>
-                            <th>Sell Quantity</th>
-                            <th>Available Quantity</th>
                             <th>Status</th>
                             <th>Action</th>
                         </tr>
@@ -151,9 +149,7 @@ const AllProduct = () => {
                                 <td>{product.description}</td>
                                 <td>{product.price}</td>
                                 <td>{product.qty}</td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
+                                <td>{product.qty === "0" ? "Out of stock" : "Available"}</td>
                                 <td>
                                     <button onClick={() => handleUpdate(product._id)} className="btn p-2 bg-secondary text-white mr-2 border-none">Edit</button>
                                     <button onClick={() => handleDelete(product._id)} className="btn p-2 bg-error text-white border-none">Delete</button>
