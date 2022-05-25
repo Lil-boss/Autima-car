@@ -13,11 +13,7 @@ const MyProfile = () => {
     useEffect(() => {
         const fetchUser = async () => {
             try {
-                await axios.get(`https://autima.herokuapp.com/api/v1/user/${email}`, {
-                    headers: {
-                        authorization: `Bearer ${localStorage.getItem('accessToken')}`
-                    }
-                })
+                await axios.get(`https://autima.herokuapp.com/api/v1/users/${email}`)
                     .then(res => setUsers(res.data.data))
             } catch (err) {
                 console.log(err);

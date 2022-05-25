@@ -3,7 +3,7 @@ import React from 'react';
 const About = () => {
     return (
         <div>
-            <div className='grid grid-cols-2 gap-2'>
+            <div className='grid lg:grid-cols-2 gap-2'>
                 <div className='p-10'>
                     <img src="https://wordschools.com/wp-content/uploads/2021/07/Car-Parts-List.png" alt="" />
                 </div>

@@ -66,11 +66,7 @@ const AllProduct = () => {
 
 
     const handleDelete = async (id) => {
-        await axios.delete(`https://autima.herokuapp.com/api/v1/product/${id}`, {
-            headers: {
-                authorization: `Bearer ${localStorage.getItem('accessToken')}`
-            }
-        })
+        await axios.delete(`https://autima.herokuapp.com/api/v1/product/${id}`)
             .then(res =>
                 toast.success("Product Deleted Successfully", { id: "success" })
             );

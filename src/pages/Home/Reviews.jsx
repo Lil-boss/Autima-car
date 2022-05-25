@@ -23,10 +23,10 @@ const Reviews = () => {
         fetchProducts()
     }, [reviews])
 
-    const reviewsData = reviews.slice(0, 3);
+    const reviewsData = reviews.slice(0, 6);
     return (
         <div>
-            <div className='grid grid-cols-3 gap-3'>
+            <div className='grid lg:grid-cols-3 gap-3'>
                 {
                     reviewsData.map((review) => <ReviewsCard key={review._id} review={review} />)
                 }

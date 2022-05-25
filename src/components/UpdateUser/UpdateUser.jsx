@@ -25,11 +25,7 @@ const UpdateUser = () => {
                 phone: phone
             }
             try {
-                await axios.put(`https://autima.herokuapp.com/api/v1/user/${id}`, {
-                    headers: {
-                        authorization: `Bearer ${localStorage.getItem('accessToken')}`
-                    }
-                }, user)
+                await axios.put(`https://autima.herokuapp.com/api/v1/user/${id}`, user)
                     .then(res => toast.success("User Updated Successfully", { id: "success" }))
             } catch (err) {
                 console.log(err);
@@ -69,7 +65,7 @@ const UpdateUser = () => {
                                 <div className="sm:flex sm:items-start">
                                     <div className="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
                                         <Dialog.Title as="h3" className="text-lg leading-6 font-medium text-gray-900">
-                                            <p className='text-center text-2xl'>Purchase</p>
+                                            <p className='text-center text-2xl'>Update User</p>
                                         </Dialog.Title>
                                         <div className='grid sm:grid-cols-1 justify-items-center md:grid-cols-2 gap-3 '>
                                             <div className='w-4/5 mx-auto'>

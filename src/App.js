@@ -24,6 +24,8 @@ import { loadStripe } from "@stripe/stripe-js";
 import { Elements } from "@stripe/react-stripe-js";
 import ForgetPassword from "./pages/Auth/ForgetPassword/ForgetPassword";
 import ShowProduct from "./components/ShowProduct/ShowProduct";
+import MyPortfolio from "./pages/MyPortfolio/MyPortfolio";
+import ContactUs from "./pages/ContactUs/ContactUs";
 const stripePromise = loadStripe('pk_test_51L33vZEbRaFU5Eq7u6bUTw2RiaaYnGEgIJv7MTBHCFBBW4mfzOOHIEPr35bRSq2okG8lZt67EybT5kmCZBkzwV5000XKJO2TEs');
 function App() {
   const queryClient = new QueryClient()
@@ -63,6 +65,8 @@ function App() {
         </Route>
         <Route path="/blogs" element={<Blogs />} />
         <Route path="/about" element={<About />} />
+        <Route path="/portfolio" element={<MyPortfolio />} />
+        <Route path="/contact" element={<ContactUs />} />
         <Route path="/purchase/:id" element={
           <RequiredAuth>
             <PurchaseModal />

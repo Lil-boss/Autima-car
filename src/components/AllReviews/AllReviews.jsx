@@ -13,7 +13,7 @@ const AllReviews = () => {
     useEffect(() => {
         const fetchProducts = async () => {
             try {
-                await axios.get(`https://autima.herokuapp.com/api/v1/review/${email}`)
+                await axios.get(`https://autima.herokuapp.com/api/v1/reviews/${email}`)
                     .then(res => {
                         setReviews(res?.data?.data)
                     })

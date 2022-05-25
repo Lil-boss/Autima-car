@@ -51,11 +51,7 @@ const UpdateModal = () => {
                         totalPrice: JSON.stringify(total)
                     }
                     const fetchData = async () => {
-                        await axios.put(`https://autima.herokuapp.com/api/v1/product/${id}`, {
-                            headers: {
-                                authorization: `Bearer ${localStorage.getItem('accessToken')}`
-                            }
-                        }, product)
+                        await axios.put(`https://autima.herokuapp.com/api/v1/product/${id}`, product)
                             .then(res => {
                                 toast.success("Product Updated Successfully", { id: "success" })
                             });
@@ -66,7 +62,6 @@ const UpdateModal = () => {
 
 
     }
-
     return (
         <Transition.Root show={open} as={Fragment}>
             <Dialog as="div" className="fixed z-10 inset-0 overflow-y-auto" initialFocus={cancelButtonRef} onClose={setOpen}>
@@ -148,7 +143,7 @@ const UpdateModal = () => {
                             </div>
                             {/* button area */}
                             <div className="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
-                                <Link to="/dashboard">
+                                <Link to="/dashboard/product">
                                     <button
                                         type="button"
                                         className="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
