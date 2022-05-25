@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 const ProductCard = ({ item }) => {
     const navigate = useNavigate()
     const { _id, productName, description, image, qty, price } = item;
-
+    const quantity = Number(qty)
     const handlePurchase = (id) => {
         navigate(`/purchase/${id}`)
     }
@@ -18,7 +18,11 @@ const ProductCard = ({ item }) => {
                 <p>${price}</p>
                 <p>Available QTY: {qty}</p>
                 <div className="card-actions">
-                    <button onClick={() => handlePurchase(_id)} className="btn btn-secondary text-white">Purchase</button>
+                    {
+                        quantity > 0 ?
+                            <button onClick={() => handlePurchase(_id)} className="btn btn-secondary text-white">Purchase</button>
+                            : "Out of Stock"
+                    }
                 </div>
             </div>
         </div>
