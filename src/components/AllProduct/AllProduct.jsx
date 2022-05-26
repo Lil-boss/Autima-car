@@ -31,11 +31,7 @@ const AllProduct = () => {
                         totalPrice: JSON.stringify(total)
                     }
                     const fetchData = async () => {
-                        await axios.post("https://autima.herokuapp.com/api/v1/products", {
-                            headers: {
-                                authorization: `Bearer ${localStorage.getItem('accessToken')}`
-                            }
-                        }, product)
+                        await axios.post("https://autima.herokuapp.com/api/v1/products", product)
                             .then(res => {
                                 toast.success("Product Added Successfully", { id: "success" })
                             });
