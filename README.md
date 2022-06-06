@@ -16,8 +16,6 @@
 * MongoDB
 # Description
 
-* you can maintain your menufacturer farm with with app 
-* user management
-* product management
-* payment system available
-* Easy to use with your Android phone.
+* This online store is built for manufacturers who want to show and sell their products online.
+* Users can easily buy products and to pay they have to have a credit card. User has an option to review the site how it look like or their behavior.
+* An admin can add, edit, delete, and update can their product, and also show and delivery to users their product who orders. Admin can also make an admin other users if needed.
