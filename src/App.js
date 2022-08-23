@@ -14,20 +14,22 @@ import {
   Payments,
   ShowProduct,
 } from "./components";
-import About from "./pages/About/About";
-import Dashboard from "./pages/Dashboard/Dashboard";
-import Blogs from "./pages/Blogs/Blogs";
-import ErrorPage from "./pages/Extra/ErrorPage/ErrorPage";
-import Home from "./pages/Home/Home";
+import {
+  About,
+  Blogs,
+  ContactUs,
+  MyPortfolio,
+  Dashboard,
+  Home,
+  Login,
+  Register,
+  RequiredAuth,
+  ForgetPassword,
+  ErrorPage,
+} from "./pages";
 import { Toaster } from "react-hot-toast";
-import Login from "./pages/Auth/Login/Login";
-import Register from "./pages/Auth/Register/Register";
-import RequiredAuth from "./pages/Auth/RequiredAuth/RequiredAuth";
 import { loadStripe } from "@stripe/stripe-js";
 import { Elements } from "@stripe/react-stripe-js";
-import ForgetPassword from "./pages/Auth/ForgetPassword/ForgetPassword";
-import MyPortfolio from "./pages/MyPortfolio/MyPortfolio";
-import ContactUs from "./pages/ContactUs/ContactUs";
 const stripePromise = loadStripe(
   "pk_test_51L33vZEbRaFU5Eq7u6bUTw2RiaaYnGEgIJv7MTBHCFBBW4mfzOOHIEPr35bRSq2okG8lZt67EybT5kmCZBkzwV5000XKJO2TEs"
 );
